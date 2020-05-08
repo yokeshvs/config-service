@@ -1,0 +1,81 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'org.springframework.boot' version '2.2.6.RELEASE'
+}
+
+group 'org.config'
+version = project.version
+
+repositories {
+    mavenCentral()
+}
+
+springBoot {
+    buildInfo()
+    mainClassName = 'com.k8sClient.ConfigHandlerApplication'
+}
+
+dependencies {
+    //Spring Dependencies
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+    implementation 'org.springframework.boot:spring-boot-configuration-processor'
+    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+
+    //Kubernetes Dependencies
+    // https://mvnrepository.com/artifact/io.kubernetes/client-java
+    compile group: 'io.kubernetes', name: 'client-java', version: '8.0.0'
+    // https://mvnrepository.com/artifact/io.fabric8/kubernetes-client
+    compile group: 'io.fabric8', name: 'kubernetes-client', version: '4.10.0'
+
+
+    //Commons Dependencies
+    compile 'org.apache.commons:commons-lang3:3.9'
+    compile 'commons-codec:commons-codec:1.13'
+    compile 'commons-io:commons-io:2.6'
+    compile 'commons-validator:commons-validator:1.6'
+
+    //Json Dependencies
+    compile 'javax.json:javax.json-api'
+    compile 'com.fasterxml.jackson.core:jackson-databind'
+    compile 'com.fasterxml.jackson.core:jackson-annotations'
+    compile 'com.google.code.gson:gson'
+
+    //Lombok Dependencies - Model Annotations
+    compile 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    //SpringFox Dependencies - Swagger
+    compileOnly 'io.springfox:springfox-swagger2:2.9.2'
+    compile 'io.springfox:springfox-swagger-ui:2.9.2'
+
+    //MapStruct Dependencies - Converters
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
+    //------------------------------------------------Test------------------------------------------------
+    testCompile 'org.springframework.boot:spring-boot-starter-test:2.1.6.RELEASE'
+
+    testCompile 'org.mockito:mockito-core:2.23.4'
+    testCompile 'junit:junit:4.12'
+
+    testCompile 'org.hamcrest:hamcrest-core:2.1'
+    testCompile 'org.hamcrest:hamcrest-library:2.1'
+    testCompile 'org.meanbean:meanbean:2.0.3'
+
+    testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+configurations {
+    all {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+}

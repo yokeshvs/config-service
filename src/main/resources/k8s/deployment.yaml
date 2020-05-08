@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-service
+spec:
+  minReadySeconds: 40
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cs
+  template:
+    metadata:
+      labels:
+        app: cs
+        tech: spring-boot
+    spec:
+      serviceAccountName: config-map-updater-sa
+      containers:
+        -
+          image: yokeshvsk/config-service
+          imagePullPolicy: Always
+          name: cs
+          ports:
+            -
+              containerPort: 8900
+              name: serviceport
+            -
+              containerPort: 8901
+              name: manageport
+          resources:
+            limits:
+              memory: 2G
+              cpu: "1"
+            requests:
+              cpu: "1"
+              memory: 2G
+          readinessProbe:
+            periodSeconds: 30
+            httpGet:
+              path: /config-service/actuator/health
+              port: 8901

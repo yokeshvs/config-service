@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: update-config-map-rb
+  namespace: default
+roleRef:
+  kind: Role
+  name: config-map-updater-role
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: ServiceAccount
+  name: config-map-updater-sa
+  namespace: default
