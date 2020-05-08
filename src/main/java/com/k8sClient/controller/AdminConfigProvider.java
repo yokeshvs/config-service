@@ -25,11 +25,11 @@ public class AdminConfigProvider {
         return ResponseEntity.status(HttpStatus.OK).body(k8sConfigService.listConfigMapData(namespace, configName));
     }
 
-//    @PatchMapping(path = "/{namespace}/{configName}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-//    @JsonView(Views.Public.class)
-//    public ResponseEntity<ConfigMapResponse> editConfigEntry(@PathVariable(name = "namespace") String namespace, @PathVariable(name = "configName") String configName, @RequestBody ConfigMapEntry configMapEntry) throws Exception {
-//        return ResponseEntity.status(HttpStatus.OK).body(k8sConfigService.editConfigMapEntry(namespace, configName, configMapEntry));
-//    }
+    @PatchMapping(path = "/{namespace}/{configName}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @JsonView(Views.Public.class)
+    public ResponseEntity<ConfigMapResponse> editConfigEntry(@PathVariable(name = "namespace") String namespace, @PathVariable(name = "configName") String configName, @RequestBody ConfigMapEntry configMapEntry) throws Exception {
+        return ResponseEntity.status(HttpStatus.OK).body(k8sConfigService.editConfigMapEntry(namespace, configName, configMapEntry));
+    }
 
     @GetMapping(path = "/hello", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @JsonView(Views.Public.class)
